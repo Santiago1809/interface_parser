@@ -99,9 +99,6 @@ func main() {
 			return
 		}
 
-		// Imprimir el valor de la propiedad "msg"
-		log.Println("Valor de msg:", requestBody.Msg)
-		log.Println("Valor de lang:", requestBody.Lang)
 		w.Header().Set("Content-Type", "application/json")
 
 		res := AskGemini(requestBody.Msg, requestBody.Lang)

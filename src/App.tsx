@@ -5,9 +5,20 @@ import Markdown from "react-markdown";
 
 function App() {
   const monaco = useMonaco();
-  const [editorValue, setEditorValue] = useState("{\n\n}");
-  const [parsedValue, setParsedValue] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState("Python");
+  const [editorValue, setEditorValue] = useState(`{\n\t"message": "Hello world"\n}`);
+  const [parsedValue, setParsedValue] = useState(`
+    class Message:
+      def __init__(self, welcome):
+          self.welcome = welcome
+
+      def greet(self):
+          return self.welcome
+
+    msg = Message("Hello world")
+    print(msg.greet())
+    
+  `);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
 
   useEffect(() => {
     if (monaco) {

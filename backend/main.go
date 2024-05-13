@@ -36,32 +36,31 @@ func AskGemini(body string, language string) []byte {
 	// Initialize the chat
 	cs := model.StartChat()
 	cs.History = []*genai.Content{
-		&genai.Content{
+		{
 			Parts: []genai.Part{
 				genai.Text("Given the following info, parse to a class {'id': 1, 'nombre':'Santiago'} javascript. No pongas ``` y luego el lenguaje, devuelve el mensaje entre comillas dobles"),
 			},
 			Role: "user",
 		},
-		&genai.Content{
+		{
 			Parts: []genai.Part{
 				genai.Text(`
-            class User {
-              constructor(nombre,id) {
-                this.nombre = nombre;
-                this.id = id;
-              }
-              getNombre() {
-                return this.nombre;
-              }
-              getId() {
-                return this.id;
-              }
-            }
-        `),
+			class User {
+				constructor(nombre,id) {
+				this.nombre = nombre;
+				this.id = id;
+				}
+				getNombre() {
+				return this.nombre;
+				}
+				getId() {
+				return this.id;
+				}
+			}
+		`),
 			},
 			Role: "model",
 		},
-		
 	}
 
 	resp, err := cs.SendMessage(ctx, genai.Text(body+" "+language))

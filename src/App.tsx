@@ -5,7 +5,9 @@ import Markdown from "react-markdown";
 
 function App() {
   const monaco = useMonaco();
-  const [editorValue, setEditorValue] = useState(`{\n\t"message": "Hello world"\n}`);
+  const [editorValue, setEditorValue] = useState(
+    `{\n\t"message": "Hello world"\n}`
+  );
   const [parsedValue, setParsedValue] = useState(`
     class Message:
       def __init__(self, welcome):
@@ -19,6 +21,7 @@ function App() {
     
   `);
   const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Estado para controlar la carga
 
   useEffect(() => {
     if (monaco) {
@@ -30,11 +33,15 @@ function App() {
     setEditorValue(value);
   };
 
-  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedLanguage(event.target.value); // Update state on selection change
+  const handleLanguageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedLanguage(event.target.value); // Actualizar estado al cambiar la selección
   };
 
   const parseData = () => {
+    setIsLoading(true); // Activar el estado de carga
+
     fetch("http://localhost:8080", {
       method: "POST",
       headers: {
@@ -51,7 +58,9 @@ function App() {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        // Si hay algún error, puedes manejarlo aquí
+      })
+      .finally(() => {
+        setIsLoading(false); // Desactivar el estado de carga
       });
   };
 
@@ -63,7 +72,7 @@ function App() {
           name="lang"
           id="lang"
           className="my-4 rounded"
-          value={selectedLanguage} // Set initial value from state
+          value={selectedLanguage}
           onChange={handleLanguageChange}
         >
           <option value="py">Python</option>
@@ -100,7 +109,13 @@ function App() {
           }}
         />
         <div className="ml-5">
-          <Markdown>{parsedValue}</Markdown>
+          {isLoading ? (
+            <div className="flex items-center justify-center h-full">
+              <h1 className="text-4xl">Loading...</h1>
+            </div>
+          ) : (
+            <Markdown>{parsedValue}</Markdown>
+          )}
         </div>
       </main>
     </div>

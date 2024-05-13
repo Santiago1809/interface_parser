@@ -61,6 +61,49 @@ func AskGemini(body string, language string) []byte {
 			},
 			Role: "model",
 		},
+		{
+			Parts: []genai.Part{
+				genai.Text(`
+				{
+					"branch": "development",
+					"last_commit": "feat: Add parsing logic for JavaScript class in AskGemini function",
+					"contributor": "Santiago1809",
+					"at": "05-12-2024 10:14 p.m."
+				}
+				cs
+				`),
+			},
+			Role: "user",
+		},
+		{
+			Parts: []genai.Part{
+				genai.Text(`
+				using System;
+
+				public class CommitInfo
+				{
+						public string branch { get; set; }
+						public string last_commit { get; set; }
+						public string contributor { get; set; }
+						public string at { get; set; }
+				
+						public CommitInfo(string branch, string lastCommit, string contributor, string at)
+						{
+								this.branch = branch;
+								this.last_commit = lastCommit;
+								this.contributor = contributor;
+								this.at = at;
+						}
+				
+						public override string ToString()
+						{
+								return $"Branch: {branch}\nLast Commit: {last_commit}\nContributor: {contributor}\nAt: {at}";
+						}
+				}				
+				`),
+			},
+			Role: "model",
+		},
 	}
 
 	resp, err := cs.SendMessage(ctx, genai.Text(body+" "+language))

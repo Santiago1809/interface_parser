@@ -42,7 +42,7 @@ function App() {
   const parseData = () => {
     setIsLoading(true); // Activar el estado de carga
 
-    fetch("http://localhost:8080", {
+    fetch("http://localhost:80", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

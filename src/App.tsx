@@ -46,12 +46,12 @@ function App() {
 
   return (
     <div className="box-border overflow-hidden">
-      <div className="flex items-center justify-center space-x-6">
+      <div className="flex items-center justify-center w-full mx-auto space-x-6">
         <Header />
         <select
           name="lang"
           id="lang"
-          className="my-4 rounded"
+          className="my-auto rounded border-2 border-gray-600 px-2 py-1 rounded-lg shadow-inner cursor-pointer bg-gray-200 text-gray-800 flex justify-center items-center "
           value={selectedLanguage} // Set initial value from state
           onChange={handleLanguageChange}
         >
@@ -69,7 +69,7 @@ function App() {
           <option value="perl">Perl</option>
         </select>
         <button
-          className="bg-gray-600 px-2 py-1 rounded-lg my-4"
+          className="bg-gray-600 px-2 py-1 rounded-lg my-4 text-white hover:bg-gray-800 transition duration-300 ease-in-out"
           onClick={parseData}
         >
           Parse

@@ -16,7 +16,7 @@ import (
 
 type RequestBody struct {
 	Msg  string `json:"msg"`
-	Lang string `json:lang"`
+	Lang string `json:"lang"`
 }
 
 func AskGemini(body string, language string) []byte {

@@ -20,10 +20,6 @@ type RequestBody struct {
 }
 
 func AskGemini(body string, language string) []byte {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, option.WithAPIKey(os.Getenv("API_KEY")))
 	if err != nil {
@@ -115,6 +111,12 @@ func AskGemini(body string, language string) []byte {
 
 }
 func main() {
+	err := godotenv.Load()
+	PORT := os.Getenv("PORT")
+	if err != nil {
+		PORT = "80"
+		log.Fatal(err)
+	}
 	router := http.NewServeMux()
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:5173"},
@@ -147,9 +149,17 @@ func main() {
 		w.Write(res)
 	}))
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    handler.ServeHTTP(w, r)
-})
-	log.Println("Server listening on port 8080")
-	err := http.ListenAndServe(":8080", router)
-	log.Fatal(err)
+		handler.ServeHTTP(w, r)
+	})
+	server := http.Server{
+		Addr: ":"+ PORT,
+		Handler: router,
+	}
+	defer server.Close()
+	log.Printf("Server listening on port %s", PORT)
+	error_server := server.ListenAndServe()
+	log.Fatal("Server exited:", error_server)
+	if (error_server != nil){
+		log.Fatal("Server exited:", error_server)
+	}
 }

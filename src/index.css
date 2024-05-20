@@ -4,3 +4,11 @@
 :root{
   color-scheme: light dark;
 }
+
+::-webkit-scrollbar{
+  width: 0.25rem;
+}
+
+::-webkit-scrollbar-thumb{
+  background: aliceblue;
+}

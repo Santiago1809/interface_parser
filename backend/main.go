@@ -152,14 +152,14 @@ func main() {
 		handler.ServeHTTP(w, r)
 	})
 	server := http.Server{
-		Addr: ":"+ PORT,
+		Addr:    ":" + PORT,
 		Handler: router,
 	}
 	defer server.Close()
 	log.Printf("Server listening on port %s", PORT)
 	error_server := server.ListenAndServe()
 	log.Fatal("Server exited:", error_server)
-	if (error_server != nil){
+	if error_server != nil {
 		log.Fatal("Server exited:", error_server)
 	}
 }
